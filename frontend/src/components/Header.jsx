@@ -2,6 +2,7 @@ import React from 'react'
 import { Navbar, Container, Nav } from 'react-bootstrap'
 import { FaShoppingCart, FaUser } from 'react-icons/fa'
 import { LinkContainer } from 'react-router-bootstrap'
+import { Dropdown, Badge } from 'react-bootstrap'
 
 const Header = () => {
     return (
@@ -70,7 +71,10 @@ const Header = () => {
                 </Container>
             </Navbar>
         </header>
+        
     )
+
+    
 }
 
 export default Header
