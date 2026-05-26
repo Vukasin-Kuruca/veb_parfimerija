@@ -1,80 +1,116 @@
 import React from 'react'
-import { Navbar, Container, Nav } from 'react-bootstrap'
-import { FaShoppingCart, FaUser } from 'react-icons/fa'
+import { Navbar, Container, Nav, Dropdown, Badge } from 'react-bootstrap'
+import { FaShoppingCart, FaUser, FaBars } from 'react-icons/fa'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Dropdown, Badge } from 'react-bootstrap'
 
 const Header = () => {
     return (
         <header>
             <Navbar
                 expand="md"
+                sticky="top"
                 collapseOnSelect
-                className="shadow-sm py-3"
+                className="shadow-sm py-2"
                 style={{
-                    background: 'linear-gradient(to right, #2c1b18, #4a2c2a)',
+                    background: 'linear-gradient(90deg, #2c1b18, #3b241f)',
                     borderBottom: '2px solid #d4af37'
                 }}
             >
-                <Container>
-                    <LinkContainer to="/">
-                        <Navbar.Brand
-                            className="fw-bold d-flex align-items-center"
+                <Container className="d-flex align-items-center">
+
+                    
+                    <Dropdown>
+                        <Dropdown.Toggle
+                            variant="link"
                             style={{
                                 color: '#f8e7d1',
-                                fontSize: '1.4rem',
-                                letterSpacing: '1px'
+                                textDecoration: 'none'
                             }}
                         >
-                            🌸
-                            <span className="ms-2">
-                                VEB PARFIMERIJA
-                            </span>
-                        </Navbar.Brand>
-                    </LinkContainer>
+                            <FaBars size={18} />
+                        </Dropdown.Toggle>
 
-                    <Navbar.Toggle
-                        aria-controls="basic-navbar-nav"
-                        style={{
-                            backgroundColor: '#f8e7d1'
-                        }}
-                    />
+                        <Dropdown.Menu>
+                            <LinkContainer to="/">
+                                <Dropdown.Item>Početna</Dropdown.Item>
+                            </LinkContainer>
 
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="ms-auto">
+                            <LinkContainer to="/products">
+                                <Dropdown.Item>Parfemi</Dropdown.Item>
+                            </LinkContainer>
+
                             <LinkContainer to="/cart">
-                                <Nav.Link
-                                    style={{
-                                        color: '#f8e7d1',
-                                        fontWeight: '500',
-                                        marginRight: '10px'
-                                    }}
-                                >
-                                    <FaShoppingCart className="me-2" />
-                                    Korpa
-                                </Nav.Link>
+                                <Dropdown.Item>Korpa</Dropdown.Item>
                             </LinkContainer>
 
                             <LinkContainer to="/login">
-                                <Nav.Link
+                                <Dropdown.Item>Prijava</Dropdown.Item>
+                            </LinkContainer>
+                        </Dropdown.Menu>
+                    </Dropdown>
+
+                    
+                    <LinkContainer to="/">
+                        <Navbar.Brand
+                            className="mx-auto fw-bold"
+                            style={{
+                                color: '#f8e7d1',
+                                fontSize: '1.3rem',
+                                letterSpacing: '2px'
+                            }}
+                        >
+                            🌸 VEB PARFIMERIJA
+                        </Navbar.Brand>
+                    </LinkContainer>
+
+                    <Navbar.Toggle style={{ background: '#f8e7d1' }} />
+
+                    <Navbar.Collapse>
+                        <Nav className="ms-auto d-flex align-items-center gap-3">
+
+                            
+                            <Dropdown align="end">
+                                <Dropdown.Toggle
+                                    variant="link"
                                     style={{
                                         color: '#f8e7d1',
-                                        fontWeight: '500'
+                                        textDecoration: 'none'
                                     }}
                                 >
-                                    <FaUser className="me-2" />
+                                    <FaShoppingCart />
+                                    <Badge bg="light" text="dark" className="ms-1">0</Badge>
+                                </Dropdown.Toggle>
+
+                                <Dropdown.Menu style={{ minWidth: '280px' }}>
+                                    <div className="p-3 text-center">
+                                        Korpa je prazna
+                                    </div>
+
+                                    <Dropdown.Divider />
+
+                                    <LinkContainer to="/cart">
+                                        <Dropdown.Item className="text-center">
+                                            Idi u korpu
+                                        </Dropdown.Item>
+                                    </LinkContainer>
+                                </Dropdown.Menu>
+                            </Dropdown>
+
+                            
+                            <LinkContainer to="/login">
+                                <Nav.Link style={{ color: '#f8e7d1' }}>
+                                    <FaUser className="me-1" />
                                     Prijava
                                 </Nav.Link>
                             </LinkContainer>
+
                         </Nav>
                     </Navbar.Collapse>
+
                 </Container>
             </Navbar>
         </header>
-        
     )
-
-    
 }
 
 export default Header
