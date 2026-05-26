@@ -27,7 +27,7 @@ const Footer = () => {
                         </p>
 
                         <small style={{ color: '#d4af37' }}>
-                            Mirisi koji ostaju u sećanju ✨
+                            Mirisi koji ostaju u sećanju
                         </small>
                     </Col>
                 </Row>

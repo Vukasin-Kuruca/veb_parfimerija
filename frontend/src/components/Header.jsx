@@ -34,11 +34,6 @@ const Header = () => {
                             <LinkContainer to="/">
                                 <Dropdown.Item>Početna</Dropdown.Item>
                             </LinkContainer>
-
-                            <LinkContainer to="/products">
-                                <Dropdown.Item>Parfemi</Dropdown.Item>
-                            </LinkContainer>
-
                             <LinkContainer to="/cart">
                                 <Dropdown.Item>Korpa</Dropdown.Item>
                             </LinkContainer>
