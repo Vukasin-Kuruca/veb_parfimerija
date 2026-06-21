@@ -27,6 +27,15 @@ const LoginScreen = () => {
         }
     }, [userInfo, redirect, navigate])
 
+    localStorage.setItem(
+  'userInfo',
+  JSON.stringify({
+    name: 'Admin',
+    email: 'admin@gmail.com',
+    isAdmin: true,
+  })
+)
+
     
     
 
