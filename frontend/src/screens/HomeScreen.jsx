@@ -1,9 +1,10 @@
 import React, { useMemo, useState } from "react";
 import { Row, Col, Form } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
-import products from "../products_list"
 import Product from "../components/Product";
 import Message from "../components/Message";
+import Loader from "../components/Loader";
+import { useGetProductsQuery } from "../slices/productsApiSlice";
 
 const categories = ['Sve', 'Muški parfemi', 'Ženski parfemi', 'Uniseks parfemi']
 
@@ -14,6 +15,11 @@ const HomeScreen = () => {
 
     const [sortBy, setSortBy] = useState('default')
 
+    const { data: products, isLoading, error } = useGetProductsQuery({
+        search,
+        category: categoryParam,
+    })
+
     const setCategory = (cat) => {
         const params = {}
         if (search) params.search = search
@@ -21,22 +27,9 @@ const HomeScreen = () => {
         setSearchParams(params)
     }
 
-    const filteredProducts = useMemo(() => {
+    const sortedProducts = useMemo(() => {
+        if (!products) return []
         let list = [...products]
-
-        if (search) {
-            const term = search.toLowerCase()
-            list = list.filter(
-                (p) =>
-                    p.name.toLowerCase().includes(term) ||
-                    p.description.toLowerCase().includes(term) ||
-                    p.category.toLowerCase().includes(term)
-            )
-        }
-
-        if (categoryParam !== 'Sve') {
-            list = list.filter((p) => p.category === categoryParam)
-        }
 
         switch (sortBy) {
             case 'price_asc':
@@ -53,7 +46,7 @@ const HomeScreen = () => {
         }
 
         return list
-    }, [search, categoryParam, sortBy])
+    }, [products, sortBy])
 
     return (
         <>
@@ -131,11 +124,17 @@ const HomeScreen = () => {
                 </div>
             </div>
 
-            {filteredProducts.length === 0 ? (
+            {isLoading ? (
+                <Loader />
+            ) : error ? (
+                <Message variant="danger">
+                    {error?.data?.message || error.error || 'Greška pri učitavanju proizvoda.'}
+                </Message>
+            ) : sortedProducts.length === 0 ? (
                 <Message>Nema proizvoda koji odgovaraju vašoj pretrazi.</Message>
             ) : (
                 <Row>
-                    {filteredProducts.map((product) => (
+                    {sortedProducts.map((product) => (
                         <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
                             <Product product={product} />
                         </Col>

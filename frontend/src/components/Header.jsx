@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
-import { Navbar, Container, Nav, Dropdown, Badge, Form } from 'react-bootstrap'
+import { Navbar, Container, Nav, Dropdown, Badge, Form, NavDropdown } from 'react-bootstrap'
 import { FaShoppingCart, FaUser, FaBars, FaSearch, FaHeart, FaTrash } from 'react-icons/fa'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { removeFromCart } from '../slices/cartSlice'
 import { removeFromWishlist } from '../slices/wishlistSlice'
+import { useLogoutMutation } from '../slices/usersApiSlice'
+import { logout } from '../slices/authSlice'
 
 const Header = () => {
     const navigate = useNavigate()
@@ -21,6 +23,19 @@ const Header = () => {
     const cartCount = cartItems.reduce((acc, item) => acc + item.qty, 0)
 
     const { userInfo } = useSelector((state) => state.auth)
+
+    const [logoutApiCall] = useLogoutMutation()
+
+    const logoutHandler = async () => {
+        try {
+            await logoutApiCall().unwrap()
+        } catch (err) {
+            console.error('Odjava nije uspela:', err)
+        } finally {
+            dispatch(logout())
+            navigate('/login')
+        }
+    }
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -44,10 +59,10 @@ const Header = () => {
                 }}
             >
                 {userInfo && userInfo.isAdmin && (
-                <LinkContainer to="/admin">
-                <Nav.Link>Admin</Nav.Link>
-                </LinkContainer>
-)}
+                    <LinkContainer to="/admin">
+                        <Nav.Link style={{ color: '#f8e7d1', textAlign: 'center' }}>Admin</Nav.Link>
+                    </LinkContainer>
+                )}
                 <Container className="d-flex align-items-center">
 
                     <Dropdown>
@@ -210,12 +225,22 @@ const Header = () => {
                                 </Dropdown.Menu>
                             </Dropdown>
 
-                            <LinkContainer to="/login">
-                                <Nav.Link style={{ color: '#f8e7d1' }}>
-                                    <FaUser className="me-1" />
-                                    Prijava
-                                </Nav.Link>
-                            </LinkContainer>
+                            {userInfo ? (
+                                <NavDropdown
+                                    title={<span style={{ color: '#f8e7d1' }}><FaUser className="me-1" />{userInfo.name}</span>}
+                                    id="username"
+                                    align="end"
+                                >
+                                    <NavDropdown.Item onClick={logoutHandler}>Odjava</NavDropdown.Item>
+                                </NavDropdown>
+                            ) : (
+                                <LinkContainer to="/login">
+                                    <Nav.Link style={{ color: '#f8e7d1' }}>
+                                        <FaUser className="me-1" />
+                                        Prijava
+                                    </Nav.Link>
+                                </LinkContainer>
+                            )}
 
                         </Nav>
                     </Navbar.Collapse>
@@ -227,3 +252,4 @@ const Header = () => {
 }
 
 export default Header
+

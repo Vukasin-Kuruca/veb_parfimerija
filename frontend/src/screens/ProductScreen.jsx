@@ -7,7 +7,9 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Rating from "../components/Rating";
 import Product from "../components/Product";
-import products from "../products_list";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
+import { useGetProductDetailsQuery, useGetProductsQuery } from "../slices/productsApiSlice";
 import { addToCart } from "../slices/cartSlice";
 import { toggleWishlistItem } from "../slices/wishlistSlice";
 
@@ -15,25 +17,37 @@ const ProductScreen = () => {
     const { id: productId } = useParams()
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const product = products.find((p) => p._id === productId);
+
+    const { data: product, isLoading, error } = useGetProductDetailsQuery(productId);
 
     const [qty, setQty] = useState(1)
 
     const wishlistItems = useSelector((state) => state.wishlist.wishlistItems)
     const isWished = product && wishlistItems.some((x) => x._id === product._id)
 
-    if (!product) {
+    const { data: sameCategoryProducts } = useGetProductsQuery(
+        { category: product?.category },
+        { skip: !product }
+    )
+
+    const relatedProducts = (sameCategoryProducts || [])
+        .filter((p) => p._id !== productId)
+        .slice(0, 4)
+
+    if (isLoading) {
+        return <Loader />
+    }
+
+    if (error || !product) {
         return (
             <>
                 <Link className='btn btn-outline-secondary mb-4' to='/'>Nazad</Link>
-                <h3>Proizvod nije pronađen.</h3>
+                <Message variant="danger">
+                    {error?.data?.message || error?.error || 'Proizvod nije pronađen.'}
+                </Message>
             </>
         )
     }
-
-    const relatedProducts = products
-        .filter((p) => p.category === product.category && p._id !== product._id)
-        .slice(0, 4)
 
     const addToCartHandler = () => {
         dispatch(addToCart({ ...product, qty }))

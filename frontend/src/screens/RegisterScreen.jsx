@@ -4,6 +4,7 @@ import { Form, Button, Row, Col } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import FormContainer from "../components/FormContainer"
 import Loader from "../components/Loader"
+import { useRegisterMutation } from "../slices/usersApiSlice"
 import { setCredentials } from "../slices/authSlice"
 import { toast } from "react-toastify"
 
@@ -12,10 +13,11 @@ const RegisterScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const [register, { isLoading }] = useRegisterMutation();
 
     const { userInfo } = useSelector((state) => state.auth);
 
@@ -28,6 +30,21 @@ const RegisterScreen = () => {
             navigate(redirect);
         }
     }, [userInfo, redirect, navigate])
+
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        if (password !== confirmPassword) {
+            toast.error('Lozinke se ne poklapaju');
+            return;
+        }
+        try {
+            const res = await register({ name, email, password }).unwrap();
+            dispatch(setCredentials({ ...res }));
+            navigate(redirect);
+        } catch (err) {
+            toast.error(err?.data?.message || err.error || 'Registracija nije uspela');
+        }
+    }
 
     return (
         <FormContainer>
@@ -54,7 +71,7 @@ const RegisterScreen = () => {
                     🌸 Registracija
                 </h1>
 
-                <Form>
+                <Form onSubmit={submitHandler}>
                     <Form.Group controlId="name" className="my-3">
                         <Form.Label style={{ color: '#5a4a42', fontWeight: '500' }}>
                             Ime

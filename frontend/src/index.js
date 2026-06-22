@@ -10,17 +10,17 @@ import { Provider } from 'react-redux';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 import './assets/styles/bootstrap-custom.css'
 import './assets/styles/index.css';
-import store from './store';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import PrivateRoute from './components/PrivateRoute';
-import HomeScreen from './screens/HomeScreen';
-import ProductScreen from './screens/ProductScreen';
-import CartScreen from './screens/CartScreen';
-import LoginScreen from './screens/LoginScreen';
-import RegisterScreen from './screens/RegisterScreen';
-import GuideScreen from "./screens/GuideScreen";
-import AdminScreen from './screens/AdminScreen'
+import store from './store.js';
+import App from './App.js';
+import reportWebVitals from './reportWebVitals.js';
+import PrivateRoute from './components/PrivateRoute.jsx';
+import HomeScreen from './screens/HomeScreen.jsx';
+import ProductScreen from './screens/ProductScreen.jsx';
+import CartScreen from './screens/CartScreen.jsx';
+import LoginScreen from './screens/LoginScreen.jsx';
+import RegisterScreen from './screens/RegisterScreen.jsx';
+import GuideScreen from "./screens/GuideScreen.jsx";
+import AdminScreen from './screens/AdminScreen.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
