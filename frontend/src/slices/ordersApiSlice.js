@@ -1,5 +1,5 @@
-import { apiSlice } from './apiSlice.js';
-import { ORDERS_URL } from '../constants.js';
+import { apiSlice } from './apiSlice';
+import { ORDERS_URL, PAYPAL_URL } from '../constants';  // ← provjeri da PAYPAL_URL postoji
 
 export const ordersApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -24,6 +24,12 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
                 body: { ...details },
             }),
             invalidatesTags: ['Order'],
+        }),
+        getPaypalClientId: builder.query({       // ← ovo nedostaje
+            query: () => ({
+                url: PAYPAL_URL,
+            }),
+            keepUnusedDataFor: 5,
         }),
         getMyOrders: builder.query({
             query: () => ({
@@ -53,6 +59,7 @@ export const {
     useCreateOrderMutation,
     useGetOrderDetailsQuery,
     usePayOrderMutation,
+    useGetPaypalClientIdQuery,    
     useGetMyOrdersQuery,
     useGetOrdersQuery,
     useDeliverOrderMutation,

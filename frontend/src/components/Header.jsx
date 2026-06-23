@@ -226,21 +226,40 @@ const Header = () => {
                             </Dropdown>
 
                             {userInfo ? (
-                                <NavDropdown
-                                    title={<span style={{ color: '#f8e7d1' }}><FaUser className="me-1" />{userInfo.name}</span>}
-                                    id="username"
-                                    align="end"
-                                >
-                                    <NavDropdown.Item onClick={logoutHandler}>Odjava</NavDropdown.Item>
-                                </NavDropdown>
-                            ) : (
-                                <LinkContainer to="/login">
-                                    <Nav.Link style={{ color: '#f8e7d1' }}>
-                                        <FaUser className="me-1" />
-                                        Prijava
-                                    </Nav.Link>
-                                </LinkContainer>
-                            )}
+    <NavDropdown
+        title={
+            <span style={{ color: '#f8e7d1' }}>
+                <FaUser className="me-1" />
+                {userInfo.name}
+            </span>
+        }
+        id="username"
+        align="end"
+    >
+        <LinkContainer to="/profile">
+            <NavDropdown.Item>Profil</NavDropdown.Item>
+        </LinkContainer>
+
+        {userInfo.isAdmin && (
+            <LinkContainer to="/admin">
+                <NavDropdown.Item>Admin panel</NavDropdown.Item>
+            </LinkContainer>
+        )}
+
+        <NavDropdown.Divider />
+
+        <NavDropdown.Item onClick={logoutHandler}>
+            Odjava
+        </NavDropdown.Item>
+    </NavDropdown>
+) : (
+    <LinkContainer to="/login">
+        <Nav.Link style={{ color: '#f8e7d1' }}>
+            <FaUser className="me-1" />
+            Prijava
+        </Nav.Link>
+    </LinkContainer>
+)}
 
                         </Nav>
                     </Navbar.Collapse>

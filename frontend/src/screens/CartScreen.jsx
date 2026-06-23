@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {Row,Col,ListGroup,Image,Form,Button,Card} from 'react-bootstrap'
 import { FaTrash } from 'react-icons/fa'
@@ -6,6 +6,7 @@ import Message from '../components/Message';
 import { addToCart, removeFromCart } from '../slices/cartSlice';
 const CartScreen = () => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const cart = useSelector((state) => state.cart)
     const { cartItems } = cart
@@ -16,6 +17,10 @@ const CartScreen = () => {
 
     const removeFromCartHandler = (id) => {
         dispatch(removeFromCart(id))
+    }
+
+    const checkoutHandler = () => {
+        navigate('/login?redirect=/shipping')
     }
 
     return (
@@ -194,12 +199,12 @@ const CartScreen = () => {
                             RSD
                         </h4>
 
-                        <Button
-                            className='w-100 mt-3'
-                            disabled={
-                                cartItems.length === 0
-                            }
-                            style={{
+                      
+<Button
+    className='w-100 mt-3'
+    disabled={cartItems.length === 0}
+    onClick={checkoutHandler}
+    style={{
                                 background:
                                     'linear-gradient(to right, #b8860b, #d4af37)',
                                 border: 'none',
@@ -207,9 +212,9 @@ const CartScreen = () => {
                                 fontWeight: '600',
                                 borderRadius: '12px'
                             }}
-                        >
-                            Nastavi kupovinu
-                        </Button>
+>
+    Nastavi kupovinu
+</Button>
                     </Card.Body>
                 </Card>
             </Col>
