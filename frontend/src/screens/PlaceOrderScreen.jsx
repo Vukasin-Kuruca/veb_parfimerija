@@ -46,7 +46,7 @@ const PlaceOrderScreen = () => {
             <CheckoutSteps step1 step2 step3 step4 />
 
             <Row className='mt-2'>
-                {/* Lijeva kolona */}
+                
                 <Col md={8}>
                     <div style={{
                         background: '#fffaf7',
@@ -57,7 +57,7 @@ const PlaceOrderScreen = () => {
                         marginBottom: '20px'
                     }}>
 
-                        {/* Dostava */}
+                        
                         <div style={{ marginBottom: '28px' }}>
                             <h2 style={{
                                 color: '#2c1b18',
@@ -85,7 +85,7 @@ const PlaceOrderScreen = () => {
 
                         <hr style={{ borderColor: '#f0e6e0' }} />
 
-                        {/* Plaćanje */}
+                        
                         <div style={{ marginBottom: '28px', marginTop: '28px' }}>
                             <h2 style={{
                                 color: '#2c1b18',
@@ -106,7 +106,7 @@ const PlaceOrderScreen = () => {
 
                         <hr style={{ borderColor: '#f0e6e0' }} />
 
-                        {/* Stavke */}
+                        
                         <div style={{ marginTop: '28px' }}>
                             <h2 style={{
                                 color: '#2c1b18',
@@ -175,7 +175,7 @@ const PlaceOrderScreen = () => {
                     </div>
                 </Col>
 
-                {/* Desna kolona — rezime */}
+                
                 <Col md={4}>
                     <div style={{
                         background: '#fffaf7',

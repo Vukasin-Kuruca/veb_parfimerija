@@ -59,10 +59,19 @@ const Header = () => {
                 }}
             >
                 {userInfo && userInfo.isAdmin && (
-                    <LinkContainer to="/admin">
-                        <Nav.Link style={{ color: '#f8e7d1', textAlign: 'center' }}>Admin</Nav.Link>
-                    </LinkContainer>
-                )}
+    <NavDropdown
+        title={<span style={{ color: '#f8e7d1' }}>Admin</span>}
+        id="admin-menu"
+        style={{ textAlign: 'center' }}
+    >
+        <LinkContainer to="/admin/orderlist">
+            <NavDropdown.Item>Porudžbine</NavDropdown.Item>
+        </LinkContainer>
+        <LinkContainer to="/admin/productlist">
+            <NavDropdown.Item>Proizvodi</NavDropdown.Item>
+        </LinkContainer>
+    </NavDropdown>
+)}
                 <Container className="d-flex align-items-center">
 
                     <Dropdown>
@@ -239,14 +248,7 @@ const Header = () => {
         <LinkContainer to="/profile">
             <NavDropdown.Item>Profil</NavDropdown.Item>
         </LinkContainer>
-
-        {userInfo.isAdmin && (
-            <LinkContainer to="/admin">
-                <NavDropdown.Item>Admin panel</NavDropdown.Item>
-            </LinkContainer>
-        )}
-
-        <NavDropdown.Divider />
+        <NavDropdown.Divider/>
 
         <NavDropdown.Item onClick={logoutHandler}>
             Odjava
